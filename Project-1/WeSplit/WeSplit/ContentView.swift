@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+<<<<<<< HEAD
     
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
@@ -80,6 +81,16 @@ struct ContentView: View {
                 }
             }
         }
+=======
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundStyle(.tint)
+            Text("Hello, world!")
+        }
+        .padding()
+>>>>>>> 90d2ceb (init: setup 100 days swiftui repo with Project-1 structure)
     }
 }
 
