@@ -18,6 +18,10 @@ struct ContentView: View {
     @State private var showFinalScore = false
     @State private var attempts = 8
     
+    @State private var selectedIndex = -1
+    @State private var rotation = 0.0
+    @State private var scale = 0.0
+    
     var body: some View {
         ZStack {
             LinearGradient(colors: [.blue, .black], startPoint: .topLeading, endPoint: .bottomLeading)
@@ -49,11 +53,27 @@ struct ContentView: View {
                         Button {
                             // flag was tapped
                             flagTapped(number)
+                            
+                            withAnimation (.spring(duration: 1, bounce: 0.6)){
+                                selectedIndex = number
+                                rotation += 360
+                            }
+                            
                         } label: {
                             Image(countries[number])
                                 .clipShape(.capsule)
                                 .shadow(radius: 5)
+                                .shadow(
+                                        color: (selectedIndex != -1 && number != correctAnswer) ? .red : .clear,
+                                        radius: (selectedIndex != -1 && number != correctAnswer) ? 15 : 0
+                                    )
+                                .shadow(color: selectedIndex == number && selectedIndex == correctAnswer ? .green : .secondary, radius: 12)
                         }
+                        .rotation3DEffect(.degrees(selectedIndex == correctAnswer && selectedIndex == number ? rotation : 0),
+                                          axis: (x: 0, y: 1, z: 0)
+                        )
+                        
+                        
                     }
                     
                 }
@@ -100,6 +120,8 @@ struct ContentView: View {
     func askNextQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        selectedIndex = -1
+        scale = 0.0
     }
     
     func resetGame() {
