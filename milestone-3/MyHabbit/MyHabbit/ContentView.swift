@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Activity: Identifiable {
+struct Activity: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let description: String?
@@ -15,15 +15,35 @@ struct Activity: Identifiable {
     let type: String
 }
 
+@Observable
+class Activities {
+    var items = [Activity]()
+}
+
 struct ContentView: View {
+    @State private var activities = Activities()
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(activities.items) { activity in
+                    
+                    NavigationLink(value: activity) {
+                        // Desisgn Row label
+                        Text(activity.name)
+                    }
+                    
+                }
+            }
+            .navigationTitle("Activities")
+            .navigationDestination(for: Activity.self) { selection in
+                Text("Details: \(selection.name)")
+            }
+                
+            
         }
-        .padding()
+        
     }
 }
 
