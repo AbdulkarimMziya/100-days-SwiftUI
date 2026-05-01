@@ -11,7 +11,7 @@ struct AddView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @State private var name: String = ""
+    @State private var name: String = "Add new Item"
     @State private var type: String = ""
     @State private var price: Double = 0.0
     
@@ -22,8 +22,7 @@ struct AddView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Name", text: $name)
-                
+            
                 Picker("Expense Type", selection: $type) {
                     ForEach(types, id: \.self) {
                         Text("\($0)")
@@ -34,7 +33,8 @@ struct AddView: View {
                     .keyboardType(.decimalPad)
                 
             }
-            .navigationTitle("Add New Expense")
+            .navigationTitle($name)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button("Save") {
                     let item = ExpenseItem(name: name, type: type, price: price)
@@ -45,6 +45,7 @@ struct AddView: View {
                     dismiss()
                 }
             }
+            .navigationBarBackButtonHidden()
         }
     }
 }
