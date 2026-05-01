@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+struct Activity: Identifiable {
+    let id = UUID()
+    let name: String
+    let description: String?
+    let completionCount: Int
+    let type: String
+}
+
 struct ContentView: View {
     var body: some View {
         VStack {
