@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct Activity: Identifiable, Hashable {
-    let id = UUID()
+    var id = UUID()
     let name: String
     let description: String?
-    let completionCount: Int
+    var completionCount: Int
     let type: String
 }
 
@@ -22,8 +22,8 @@ class Activities {
 
 struct ContentView: View {
     @State private var activities = Activities()
-    
-    
+
+    @State private var showAddActivity = false
     var body: some View {
         NavigationStack {
             List {
@@ -33,17 +33,34 @@ struct ContentView: View {
                         // Desisgn Row label
                         Text(activity.name)
                     }
-                    
                 }
+                .onDelete(perform: deleteActivity)
             }
             .navigationTitle("Activities")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        showAddActivity.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
             .navigationDestination(for: Activity.self) { selection in
                 Text("Details: \(selection.name)")
+            }
+            .sheet(isPresented: $showAddActivity ) {
+                // Show AddActivity View
+                AddActivity(activities: activities)
             }
                 
             
         }
         
+    }
+    
+    func deleteActivity(offSet: IndexSet) {
+        activities.items.remove(atOffsets: offSet)
     }
 }
 
