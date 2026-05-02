@@ -47,7 +47,7 @@ struct ContentView: View {
                 }
             }
             .navigationDestination(for: Activity.self) { selection in
-                Text("Details: \(selection.name)")
+                ActivityDetail(activities: activities, selection: selection)
             }
             .sheet(isPresented: $showAddActivity ) {
                 // Show AddActivity View
