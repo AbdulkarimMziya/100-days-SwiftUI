@@ -15,22 +15,47 @@ struct ContentView: View {
     @State private var showingAddBookView = false
     var body: some View {
         NavigationStack {
-            Text("Count: \(books.count)")
-                .navigationTitle("Books")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showingAddBookView.toggle()
-                        } label: {
-                            Image(systemName: "plus")
+            List {
+                ForEach(books) { book in
+                    NavigationLink(value: book) {
+                        HStack {
+                            Image(systemName: "book")
+                                .font(.system(size: 24))
+                                .padding()
+                                .background(.blue.opacity(0.75))
+                                .clipShape(.rect(cornerRadius: 16))
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(book.title)
+                                    .font(.title2.bold())
+                                
+                                Text(book.author)
+                                    .font(.title3)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
                 }
-                .sheet(isPresented: $showingAddBookView) {
-                    
-                    // SHow AddBook View
-                    AddBookView()
+            }
+            .navigationTitle("Books")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingAddBookView.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
+            }
+            .navigationDestination(for: Book.self) { book in
+                
+                // Show Detail View
+                Text("\(book.title)")
+            }
+            .sheet(isPresented: $showingAddBookView) {
+                
+                // SHow AddBook View
+                AddBookView()
+            }
         }
     }
 }
