@@ -49,7 +49,7 @@ struct ContentView: View {
             .navigationDestination(for: Book.self) { book in
                 
                 // Show Detail View
-                Text("\(book.title)")
+                DetailView(book: book)
             }
             .sheet(isPresented: $showingAddBookView) {
                 
