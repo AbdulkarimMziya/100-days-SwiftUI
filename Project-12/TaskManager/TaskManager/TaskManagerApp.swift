@@ -5,6 +5,7 @@
 //  Created by Abdulkarim Mziya on 2026-05-07.
 //
 
+import SwiftData
 import SwiftUI
 
 @main
@@ -13,5 +14,6 @@ struct TaskManagerApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Task.self)
     }
 }
