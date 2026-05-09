@@ -11,17 +11,29 @@ struct ContentView: View {
     @State private var users = [User]()
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            if !users.isEmpty {
-                    Text("First Friend Count: \(users[0].friends.count)")
-            } else {
-                    Text("Loading users...")
+        NavigationStack {
+            List {
+                ForEach(users) { user in
+                    HStack {
+                        Image(systemName: "person")
+                            .font(.system(size: 32))
+                            .padding(8)
+                            .background(.black.opacity(0.16))
+                            .clipShape(.circle)
+                            .overlay {
+                                Circle()
+                                    .stroke(lineWidth: 2)
+                            }
+                        Text(user.name)
+                        
+                        Spacer()
+                        Text("Status: \(user.activeStatus)")
+                            .font(.caption)
+                    }
+                }
             }
+            .navigationTitle("Users")
         }
-        .padding()
         .task {
             await loadData()
         }

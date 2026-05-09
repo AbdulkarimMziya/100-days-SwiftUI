@@ -23,4 +23,11 @@ struct User: Codable, Identifiable {
         let id: String
         let name: String
     }
+    
+    var activeStatus: String {
+        if isActive {
+            return "Active"
+        }
+        return "Offline"
+    }
 }
