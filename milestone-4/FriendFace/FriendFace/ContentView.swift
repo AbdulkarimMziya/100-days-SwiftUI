@@ -14,25 +14,35 @@ struct ContentView: View {
         NavigationStack {
             List {
                 ForEach(users) { user in
-                    HStack {
-                        Image(systemName: "person")
-                            .font(.system(size: 32))
-                            .padding(8)
-                            .background(.black.opacity(0.16))
-                            .clipShape(.circle)
-                            .overlay {
-                                Circle()
-                                    .stroke(lineWidth: 2)
-                            }
-                        Text(user.name)
-                        
-                        Spacer()
-                        Text("Status: \(user.activeStatus)")
-                            .font(.caption)
+                    NavigationLink {
+                        UserDetailView(user: user)
+                    } label: {
+                        HStack {
+                            Image(systemName: "person")
+                                .font(.system(size: 32))
+                                .padding(8)
+                                .background(.black.opacity(0.16))
+                                .clipShape(.circle)
+                                .overlay {
+                                    Circle()
+                                        .stroke(lineWidth: 2)
+                                }
+                            Text(user.name)
+                            
+                            Spacer()
+                            Text(user.activeStatus)
+                                .font(.caption)
+                            Circle()
+                                .fill(user.isActive ? .green : .red)
+                                .frame(width: 12, height: 12)
+                                .overlay {
+                                    Circle().stroke(.white, lineWidth: 2)
+                                }
+                        }
                     }
                 }
             }
-            .navigationTitle("Users")
+            .navigationTitle("Friends")
         }
         .task {
             await loadData()
