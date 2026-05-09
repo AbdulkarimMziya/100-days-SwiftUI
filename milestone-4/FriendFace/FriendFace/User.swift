@@ -25,9 +25,15 @@ struct User: Codable, Identifiable {
     }
     
     var activeStatus: String {
-        if isActive {
-            return "Active"
+        isActive ? "Active" : "Offline"
+    }
+    
+    var formattedDate: String {
+        let dateString = registered
+        let formatter = ISO8601DateFormatter()
+        if let date = formatter.date(from: dateString) {
+            return date.formatted(date: .long, time: .omitted)
         }
-        return "Offline"
+        return "Unknown date"
     }
 }
