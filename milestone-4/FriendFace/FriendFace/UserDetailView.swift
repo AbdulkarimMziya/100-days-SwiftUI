@@ -74,11 +74,11 @@ struct UserDetailView: View {
         registered: "2014-07-05T04:25:04-01:00",
       
         friends: [
-            User.Friend(
+            Friend(
                 id: "1c18ccf0-2647-497b-b7b4-119f982e6292",
                 name: "Daisy Bond"
             ),
-            User.Friend(
+            Friend(
                 id: "a1ef63f3-0eab-49a8-a13a-e538f6d1c4f9",
                 name: "Tanya Roberson"
             )
