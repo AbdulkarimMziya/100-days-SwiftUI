@@ -5,11 +5,14 @@
 //  Created by Abdulkarim Mziya on 2026-05-08.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users = [User]()
+    @Environment(\.modelContext) var modelContext
     
+    @Query(sort: \User.name) var users: [User]
+ 
     var body: some View {
         NavigationStack {
             List {
@@ -64,7 +67,10 @@ struct ContentView: View {
             
             // 3. Decoding the result of that data
             if let decodedResponse = try? JSONDecoder().decode([User].self, from: data){
-                users = decodedResponse
+                // 4. Save user in SwiftData
+                for user in decodedResponse {
+                    modelContext.insert(user)
+                }
             } else {
                 print("Failed to decode data")
             }
